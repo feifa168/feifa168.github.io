@@ -42,6 +42,12 @@
 			// this = std::move(data);	// 以上两步可认为等同于move操作
 			this->len = len;
 		}
+		~MyTestClass() {
+			if (pi != nullptr) {
+				delete pi;				//		  @8
+				pi = nullptr;
+			}
+		}
 	private:
 		int *pi;
 		int len;
@@ -54,6 +60,7 @@
 * @5 注释掉了，因为是const类型，否则就可以等同于右值引用了
 * @6 指针浅拷贝
 * @7 右值引用包含的指针置空，以防析构时清空该内存
+* @8 析构时会释放指针空间
 
 ### 右值引用作用
 > c++11中引入了右值引用&&，为了解决过多临时变量导致的性能问题，尤其是类似标准库中的vector,strging等常用类型赋值，会生成很多临时变量，影响性能。比如
